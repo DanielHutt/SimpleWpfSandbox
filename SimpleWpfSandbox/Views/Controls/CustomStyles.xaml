@@ -1,0 +1,108 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SimpleWpfSandbox.Views.Controls"
+                    xmlns:converters="clr-namespace:SimpleWpfSandbox.Converters">
+    <SolidColorBrush x:Key="DefaultBorderBrush" Color="White" />
+
+    <Style x:Key="ButtonFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle StrokeDashArray="1 2" StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" Margin="2" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <LinearGradientBrush x:Key="ButtonNormalBackground" EndPoint="0,1" StartPoint="0,0">
+        <GradientStop Color="#F3F3F3" Offset="0" />
+        <GradientStop Color="#EBEBEB" Offset="0.5" />
+        <GradientStop Color="#DDDDDD" Offset="0.5" />
+        <GradientStop Color="#CDCDCD" Offset="1" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="ButtonNormalBorder" Color="#FF707070" />
+
+    <Style x:Key="CustomTextToggleButtonStyle" TargetType="{x:Type local:TextedToggleButton}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}" />
+        <Setter Property="Background" Value="{StaticResource ButtonNormalBackground}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:TextedToggleButton}">
+                    <Border
+                        x:Name="border1"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="3,3,0,0"
+                        CornerRadius="5">
+                        <Border
+                            x:Name="border2"
+                            Padding="1"
+                            Background="#7F000000"
+                            BorderBrush="Black"
+                            BorderThickness="0,0,3,3"
+                            CornerRadius="5">
+                            <Grid>
+                                <TextBlock Name="TextBlockUnchecked"
+                                           Grid.Column="0"
+                                           Margin="5,0,0,0"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontWeight="Bold"
+                                           Foreground="{TemplateBinding Foreground}"
+                                           Visibility="Hidden"
+                                           Text="{TemplateBinding UncheckedText}" />
+                                <TextBlock Name="TextBlockChecked"
+                                           Grid.Column="2"
+                                           Margin="0,0,5,0"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontWeight="Bold"
+                                           Foreground="{TemplateBinding Foreground}"
+                                           Visibility="Hidden"
+                                           Text="{TemplateBinding CheckedText}" />
+                            </Grid>
+                        </Border>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border1" Property="BorderBrush" Value="#CC000000" />
+                            <Setter TargetName="border2" Property="BorderBrush" Value="{StaticResource DefaultBorderBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border1" Property="Opacity" Value=".2" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="TextBlockChecked" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False  ">
+                            <Setter TargetName="TextBlockUnchecked" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="TranslatableLabelStyle" TargetType="{x:Type local:TranslatableLabel}">
+        <Style.Resources>
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        </Style.Resources>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:TranslatableLabel}">
+                    <Grid>
+                        <Label Content="{TemplateBinding TrueTranslationConditionText}" Visibility="{TemplateBinding TranslationCondition, Converter={converters:BoolToVisibilityConverter}}" />
+                        <Label Content="{TemplateBinding FalseTranslationConditionText}" Visibility="{TemplateBinding TranslationCondition, Converter={converters:InverseBoolToVisibilityConverter}}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Default Style -->
+    <Style BasedOn="{StaticResource TranslatableLabelStyle}" TargetType="{x:Type local:TranslatableLabel}" />
+</ResourceDictionary>

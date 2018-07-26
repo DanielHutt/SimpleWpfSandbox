@@ -1,0 +1,43 @@
+﻿<mahapps:MetroWindow x:Class="SimpleWpfSandbox.MainWindow"
+                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                     xmlns:local="clr-namespace:SimpleWpfSandbox"
+                     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                     xmlns:viewModels="clr-namespace:SimpleWpfSandbox.ViewModels"
+                     xmlns:views="clr-namespace:SimpleWpfSandbox.Views"
+                     Title="MainWindow"
+                     Width="525"
+                     Height="350"
+                     GlowBrush="BlueViolet"
+                     mc:Ignorable="d">
+    <Window.DataContext>
+        <viewModels:MainWindowViewModel />
+    </Window.DataContext>
+    <Grid>
+        <TabControl>
+            <TabControl.Resources>
+                <DataTemplate DataType="{x:Type viewModels:OneViewModel}">
+                    <views:OneView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:TwoViewModel}">
+                    <views:TwoView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:ThreeViewModel}">
+                    <views:ThreeView />
+                </DataTemplate>
+            </TabControl.Resources>
+
+            <TabItem Header="One">
+                <ContentPresenter Content="{Binding OneViewModel}" />
+            </TabItem>
+            <TabItem Header="Two">
+                <ContentPresenter Content="{Binding TwoViewModel}" />
+            </TabItem>
+            <TabItem Header="Thray">
+                <ContentPresenter Content="{Binding ThreeViewModel}" />
+            </TabItem>
+        </TabControl>
+    </Grid>
+</mahapps:MetroWindow>
